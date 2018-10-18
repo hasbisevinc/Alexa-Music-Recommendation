@@ -8,12 +8,12 @@ app = Flask(__name__)
 ask = Ask(app, "/")
 logging.getLogger("flask_ask").setLevel(logging.DEBUG)
 
-ASK_APPLICATION_ID = 'BURAYA_SKILL_ID'
+ASK_APPLICATION_ID = 'amzn1.ask.skill.4a1322fb-0be1-4aba-a683-8fac05f69696'
 ASK_VERIFY_REQUESTS = True
 ASK_VERIFY_TIMESTAMP_DEBUG = True
 
 
-@ask.intent("BURAYA_INTENT_NAME")
+@ask.intent("music_recommendation")
 def main_function():
     return dinner_recommendation()
 
@@ -38,7 +38,7 @@ def session_ended():
 
 # --------------- Main handler ------------------
 def lambda_handler(event, context):
-    if event['session']['application']['applicationId'] != "BURAYA_SKILL_ID":
+    if event['session']['application']['applicationId'] != "amzn1.ask.skill.4a1322fb-0be1-4aba-a683-8fac05f69696":
         print("wrong app id")
         return ''
     print("event.session.application.applicationId=" +
@@ -85,18 +85,17 @@ def on_intent(intent_request, session):
 
     intent = intent_request['intent']
     intent_name = intent_request['intent']['name']
-    if intent_name == "BURAYA_INTENT_NAME":
+    if intent_name == "music_recommendation":
         return dinner_recommendation()
 
 
 #--------------- App Functions ------------------------
 def dinner_recommendation():
-    #BURAYA_KART_VE_SESLI_MESAJLAR_GELECEK
     session_attributes = {}
-    card_title = "Daily Dinner Recommendation"
+    card_title = "Music Recommendation"
     dinner = get_dinner()
-    speech_output = "Here is the daily dinner recommendation for you. You can cook "+dinner+" today."
-    reprompt_text = "Today's dinner recommendation is "+dinner
+    speech_output = "Here is a music recommendation for you. You can listen "+dinner
+    reprompt_text = "Music recommendation is "+dinner
     should_end_session = True
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -105,13 +104,13 @@ def dinner_recommendation():
 def get_dinner():
     now = datetime.datetime.now()
     day = now.day
-    return food_list[int(day)%10]
+    return food_list[int(day)%9]
 
 
 #---------------- Food List ----------------------------
 #BURAYA_YENI_STRINGLER
-food_list = ("lemony chicken tenders", "herbed lemon cod", "turkey couscous", "veggie calzones", "chicken lazone", "savory chicken with rice"
-, "turkey pesto fettucine", "balsamic garlic chicken", "slow cooker chicken with dill", "rotini with peas")
+food_list = ("Despacito by Luis Fonsi", "faded by alan walker", "Take Me To Church by Hozier", "Come with Me Now by KONGOS", "All of Me by John Legend", "Ride by twenty one pilots"
+, "Imagine Dragons by Radioactive", "Do I Wanna Know by Arctic Monkeys", "Zombie by The Cranberries")
 
 
 if __name__ == '__main__':
@@ -119,7 +118,7 @@ if __name__ == '__main__':
         verify = str(os.environ.get('ASK_VERIFY_REQUESTS', '')).lower()
         if verify == 'false':
             app.config['ASK_VERIFY_REQUESTS'] = False
-	app.config['ASK_APPLICATION_ID'] = 'BURAYA_SKILL_ID'
+	app.config['ASK_APPLICATION_ID'] = 'amzn1.ask.skill.4a1322fb-0be1-4aba-a683-8fac05f69696'
 	app.config['ASK_VERIFY_REQUESTS'] = True
 	app.config['ASK_VERIFY_TIMESTAMP_DEBUG'] = True
     app.run(debug=True)

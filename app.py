@@ -118,8 +118,8 @@ if __name__ == '__main__':
         verify = str(os.environ.get('ASK_VERIFY_REQUESTS', '')).lower()
         if verify == 'false':
             app.config['ASK_VERIFY_REQUESTS'] = False
-	app.config['ASK_APPLICATION_ID'] = 'amzn1.ask.skill.4a1322fb-0be1-4aba-a683-8fac05f69696'
-	app.config['ASK_VERIFY_REQUESTS'] = True
-	app.config['ASK_VERIFY_TIMESTAMP_DEBUG'] = True
+        app.config['ASK_APPLICATION_ID'] = 'amzn1.ask.skill.4a1322fb-0be1-4aba-a683-8fac05f69696'
+        app.config['ASK_VERIFY_REQUESTS'] = True
+        app.config['ASK_VERIFY_TIMESTAMP_DEBUG'] = True
     app.run(debug=True)
 
