@@ -1,4 +1,5 @@
 import logging
+from random import randint
 from flask import Flask, render_template
 from flask_ask import Ask, statement, question, session
 import datetime
@@ -102,13 +103,10 @@ def dinner_recommendation():
 
 
 def get_dinner():
-    now = datetime.datetime.now()
-    day = now.day
-    return food_list[int(day)%9]
+    return food_list[randint(0, 8)]
 
 
 #---------------- Food List ----------------------------
-#BURAYA_YENI_STRINGLER
 food_list = ("Despacito by Luis Fonsi", "faded by alan walker", "Take Me To Church by Hozier", "Come with Me Now by KONGOS", "All of Me by John Legend", "Ride by twenty one pilots"
 , "Imagine Dragons by Radioactive", "Do I Wanna Know by Arctic Monkeys", "Zombie by The Cranberries")
 
